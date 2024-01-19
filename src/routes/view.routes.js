@@ -77,8 +77,8 @@ router.get("/carts/:cid", isLogged, async (req, res) => {
     }
 })
 
-router.get("/", async (req, res) => {
-    if(req?.user?.email) return res.redirect("/products")
+router.get("/login", async (req, res) => {
+/*     if(req?.user?.email) return res.redirect("/products") */
     try {
 
         res.render("login")
@@ -88,8 +88,8 @@ router.get("/", async (req, res) => {
 })
 
 router.get("/register", async (req, res) => {
-    if(req?.user?.email) return res.redirect("/products")
-
+/*     if(req?.user?.email) return res.redirect("/products")
+ */
     try {
 
         res.render("register")

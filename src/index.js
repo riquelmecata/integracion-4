@@ -77,6 +77,10 @@ app.engine("handlebars", handlebars.engine())
 app.set("views", __dirname + "/views")
 app.set("view engine", "handlebars")
 
+app.get('/', (req, res) => {
+    res.redirect('/login')
+})
+
 const PORT = 8080
 
 const httpServer = app.listen(PORT, () => {

@@ -49,7 +49,7 @@ form.onsubmit = async (e) => {
                 cancelButtonText: 'No'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = 'http://localhost:8080/'; // Redirige a la página de inicio de sesión
+                    window.location.href = 'http://localhost:8080/login'; // Redirige a la página de inicio de sesión
                 } else {
                     resetForm();
                 }

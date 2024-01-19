@@ -6,17 +6,17 @@ import { uploader } from "../../services/uploader.js";
 
 export const router = Router();
 
-router.post('/register', passport.authenticate('register', {
-     failureRedirect: '/registerError',
-     successRedirect: '/',
-     passReqToCallback: true,
-}))
+router.post("/register", passport.authenticate("register"), async (req, res) => {
 
-router.post('/login', passport.authenticate('login'), async (req,res) => {
-     req.session.user = req.user
-     res.redirect('/products')
+     if (req.user) res.status(200).json({ result: req.user })
+ 
  })
 
+ router.post("/login", passport.authenticate("login"), async (req, res) => {
+     console.log("entro");
+     req.session.user = req.user;
+     res.status(200).json({ result: true });
+ });
 
 router.get('/github/auth', passport.authenticate('githubAuth', {scope: [ 'user:email' ] }))
 router.get('/github/callback', passport.authenticate('githubAuth'), async (req,res) => {

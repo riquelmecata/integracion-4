@@ -61,6 +61,9 @@ class UsersController {
     };
 
     logout = async (req,res) => {
+        const user = await UserModel.findById(req.session.user._id)
+        user.last_connection = Date.now()
+        await user.save()
         req.session.destroy(error => {
             if(error){
                 console.log(error);
