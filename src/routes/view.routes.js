@@ -5,6 +5,7 @@ import { isAdmin, isLogged, isPremium } from "../middlewares/auth.middleware.js"
 import { nanoid } from 'nanoid';
 import { faker } from '@faker-js/faker';
 import viewsController from '../controller/views.controller.js';
+import { postTicket } from '../controller/ticket.controller.js';
 
 
 // Importar todos los routers;
@@ -78,7 +79,7 @@ router.get("/carts/:cid", isLogged, async (req, res) => {
 })
 
 router.get("/login", async (req, res) => {
-/*     if(req?.user?.email) return res.redirect("/products") */
+    if(req?.user?.email) return res.redirect("/products") 
     try {
 
         res.render("login")
@@ -88,8 +89,8 @@ router.get("/login", async (req, res) => {
 })
 
 router.get("/register", async (req, res) => {
-/*     if(req?.user?.email) return res.redirect("/products")
- */
+    if(req?.user?.email) return res.redirect("/products")
+ 
     try {
 
         res.render("register")
@@ -112,6 +113,17 @@ router.get("/profile", isLogged, async (req, res) => {
         email: req.user.email,
         role: req.user.role,
         age: req.user.age
+
+    });
+})
+
+router.get('/purchaseEnded/:ticketId', async (req, res) => { 
+    if(!req?.user?.email)
+    {
+        return res.redirect("/login")
+    }
+    res.render('purchaseEnded', {
+        title: "Compra realizada"
 
     });
 })
@@ -160,5 +172,3 @@ router.get('/resetPassword', viewsController.resetPassword)
 router.get('/createNewPassword/:userId/:token', viewsController.createNewPassword)
 
 router.get('/uploadDocs', isLogged, viewsController.uploadDocs)
-
-router.get('/purchaseEnded/:ticketId', viewsController.getTicketById)

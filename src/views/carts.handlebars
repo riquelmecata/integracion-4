@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="/">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -40,16 +40,17 @@
         </div>
         {{/each}}
     </div>
+    <div class="row justify-content-center">
+      <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-outline-primary mx-2" id="emptyCart">Vaciar carrito</button>
+          <button class="btn btn-outline-success mx-2" id="purchase">Finalizar compra</button>
+      </div>
+    </div>   
     {{else}}
     <h2>Sin productos.</h2>
     {{/if}}
 </div>
 
-<div class="row justify-content-center">
-    <div class="d-flex justify-content-center align-items-center">
-        <button class="btn btn-outline-primary mx-2" id="emptyCart">Vaciar carrito</button>
-        <button class="btn btn-outline-success mx-2" id="purchase">Finalizar compra</button>
-    </div>
-</div>   
+
 
 <script src="/js/cart.js"></script>
