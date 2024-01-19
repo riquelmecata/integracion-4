@@ -12,6 +12,7 @@ export const ErrorsName = {
     FETCH_ERROR: 'Error al recuperar datos',
     SERVER_ERROR: 'Error de servidor',
     OWN_PRODUCT: 'Error de producto',
+    DOCUMENTS_ERROR: 'Documents error'
 };
 
 
@@ -29,6 +30,7 @@ export const ErrorsCause = {
     FETCH_ERROR: 'Fallo al recuperar datos',
     SERVER_ERROR: 'Fallo al comunicarse con el servidor',
     OWN_PRODUCT: 'Error al agregar producto al carrito',
+    DOCUMENTS_ERROR: 'Al usuario le faltan documentos'
 }
 
 
@@ -46,4 +48,5 @@ export const ErrorsMessage = {
     FETCH_ERROR: 'Ocurrió un error al recuperar datos.',
     SERVER_ERROR: 'Ocurrió un error al comunicarse con el servidor.',
     OWN_PRODUCT: 'No puedes agregar tus propios productos a tu carrito.',
+    DOCUMENTS_ERROR: 'Al usuario le faltan uno o más documentos'
 };

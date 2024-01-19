@@ -31,6 +31,7 @@ export const getCurrentSessionUser = async (req,res) => {
     try {
         const currentSession = req.session
         const currentUser = currentSession.user
+        console.log('Current user:', currentUser);
         res.send(currentUser)
     } catch (error) {
         res.send(error)

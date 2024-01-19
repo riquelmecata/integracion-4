@@ -1,3 +1,4 @@
+import fs from 'fs'
 import { UserModel } from "../DAL/db/models/user.model.js";
 import { tokenModel } from "../DAL/db/models/tokens.model.js";
 import logger from "../services/winston/winston.js";
@@ -7,6 +8,8 @@ import { hasherCompare } from "../services/hashercompare.js";
 
 import crypto from 'crypto'
 import { ProductsModel } from "../DAL/db/models/products.model.js";
+import CustomError from '../services/errors/CustomError.js';
+import { ErrorsCause, ErrorsMessage, ErrorsName } from '../services/errors/enum.js';
 
 class UsersController {
     resetPassword = async (req, res, next) => {
@@ -103,23 +106,72 @@ class UsersController {
         try {
             const {userId} = req.params
             const user = await UserModel.findById(userId)
-            const updatedRole = user.role === "user" ? "premium" : "user"
-            const result = await UserModel.updateOne({_id: userId}, {
-                $set: {
-                    role: updatedRole
+            const canGetPremium = () => {
+                const id = user.documents.some(doc => doc.docType === "id")
+                const account = user.documents.some(doc => doc.docType === "account")
+                const adress = user.documents.some(doc => doc.docType === "adress")
+
+                if (id && adress && account) {
+                    return true
+                } else {
+                    return false
                 }
-            })
-            res.send(result)
+            }
+            const updatedRole = user.role === "user" ? "premium" : "user"
+            if(canGetPremium() && user.role === "user"){
+                const result = await UserModel.updateOne({_id: userId}, {
+                    $set: {
+                        role: updatedRole
+                    }
+                })
+                res.send(result)
+            } else {
+                CustomError.createCustomError({
+                    name: ErrorsName.DOCUMENTS_ERROR,
+                    cause: ErrorsCause.DOCUMENTS_ERROR,
+                    message: ErrorsMessage.DOCUMENTS_ERROR,
+                })
+            }
         } catch (error) {
             next(error)
         }
     }
+
 
     deleteOwnProduct = async (req,res,next) => {
         try {
             const {prodId} = req.params
             const result = await ProductsModel.deleteOne({_id: prodId})
             res.send(result)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    uploadDocument = async (req,res,next) => {
+        try {
+            const file = req.file
+            const uploadType = req.body.uploadType
+            let folder
+            if(uploadType === "id" || uploadType === "account" || uploadType === "adress"){
+                folder = "documents"
+            } else {
+                folder = uploadType
+            }
+            if(file){
+                fs.renameSync(file.path, file.destination+'/'+folder+'/'+req.user._id+'-'+uploadType+'-'+file.originalname)
+            }
+            const document = {
+                name: req.user._id+'-'+uploadType+'-'+file.originalname,
+                reference: file.destination+'/'+folder,
+                docType: uploadType,
+            }
+            const user = await UserModel.findById(req.user._id)
+            if(file && user){
+                user.documents.push(document)
+                await user.save()
+            }
+            res.send(document)
         } catch (error) {
             next(error)
         }

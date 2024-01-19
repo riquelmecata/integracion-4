@@ -1,3 +1,25 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:8080/products">Productos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:8080/carts/651cd552fef520effdaae934">Carrito</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:8080/profile">Perfil</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 <div class="container text-center">
     {{#if productos.length }}
     <div class="d-flex justify-content-center">
@@ -22,3 +44,12 @@
     <h2>Sin productos.</h2>
     {{/if}}
 </div>
+
+<div class="row justify-content-center">
+    <div class="d-flex justify-content-center align-items-center">
+        <button class="btn btn-outline-primary mx-2" id="emptyCart">Vaciar carrito</button>
+        <button class="btn btn-outline-success mx-2" id="purchase">Finalizar compra</button>
+    </div>
+</div>   
+
+<script src="/js/cart.js"></script>

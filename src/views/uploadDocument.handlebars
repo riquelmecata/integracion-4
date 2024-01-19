@@ -1,0 +1,15 @@
+
+
+
+<h1>Subir documentación</h1>
+ <form action="/users/{{userId}}/documents" method="POST" enctype="multipart/form-data">
+    Documento: <input type="file" name="file" id="file">
+    <p>¿Que documento estas subiendo?</p>
+    <input type="radio" name="uploadType" id="doc1" value="id"/>
+    <label for="doc1">Identificacion</label>
+    <input type="radio" name="uploadType" id="doc2" value="adress"/>
+    <label for="doc2">Comprobante domicilio</label>
+    <input type="radio" name="uploadType" id="doc3" value="account"/>
+    <label for="doc3">Comprobante cuenta</label>
+    <input type="submit" value="Enviar" />
+</form> 

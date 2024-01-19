@@ -35,7 +35,7 @@ form.onsubmit = async (e) => {
     console.log("Datos enviados:", user);
 
     try {
-        const response = await axios.post("http://localhost:8080/api/sessions/register", user);
+        const response = await axios.post("http://localhost:8080/users/register", user);
         const data = response.data;
 
         if (data.result) {
@@ -49,7 +49,7 @@ form.onsubmit = async (e) => {
                 cancelButtonText: 'No'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = 'http://localhost:8080/login'; // Redirige a la página de inicio de sesión
+                    window.location.href = 'http://localhost:8080/'; // Redirige a la página de inicio de sesión
                 } else {
                     resetForm();
                 }

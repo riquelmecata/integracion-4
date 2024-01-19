@@ -1,5 +1,6 @@
 import CustomError from '../services/errors/CustomError.js'
 import { ErrorsCause, ErrorsMessage, ErrorsName } from '../services/errors/enum.js'
+import SessionDTO from '../dto/UsersDTO/session.dto.js';
 
 export const isAdmin = (req, res, next) => {
     if (req?.user?.role === "admin") {
@@ -15,10 +16,13 @@ export const isAdmin = (req, res, next) => {
 };
 
 export const isLogged = (req, res, next) => {
-    if (req.user || req?.session?.user?.role) {
-        // Si hay un usuario autenticado o si existe algún rol en la sesión
+    const { user } = req.session;
+
+    // Verifica si hay un usuario autenticado o si existe algún rol en la sesión
+    if (user) {
         next();
     } else {
+        // Si no hay usuario autenticado ni rol en la sesión, maneja el error
         CustomError.createCustomError({
             name: ErrorsName.INVALID_SESSION,
             cause: ErrorsCause.INVALID_SESSION,

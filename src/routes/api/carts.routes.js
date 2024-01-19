@@ -11,12 +11,12 @@ router.get("/:cid", getCart)
 
 router.put("/:cid", cartUpdater)
 
-router.delete("/:cid", /* isLogged, */ cartCleaner)
+router.delete("/:cid",  isLogged, cartCleaner)
 
-router.post("/:cid/product/:pid", /* isLogged, */ addProductToCart)
+router.post("/:cid/product/:pid", isLogged, addProductToCart)
 
-router.delete("/:cid/product/:pid", /* isLogged, */ deleteProductFromCart)
+router.delete("/:cid/product/:pid", isLogged, deleteProductFromCart)
 
-router.put("/:cid/product/:pid", /* isLogged, */ incrementProduct)
+router.put("/:cid/product/:pid", isLogged, incrementProduct)
 
 router.post("/:cid/purchase", postTicket)

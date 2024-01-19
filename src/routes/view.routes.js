@@ -10,7 +10,7 @@ import viewsController from '../controller/views.controller.js';
 // Importar todos los routers;
 export const router = Router();
 
-router.get("/products", /* isLogged, */ async (req, res) => {
+router.get("/products",  isLogged, async (req, res) => {
     if(!req?.user?.email) return res.redirect("/login")
     try {
         const { limit, page, sort } = req.query
@@ -34,7 +34,7 @@ router.get("/products", /* isLogged, */ async (req, res) => {
     }
 })
 
-router.get("/products/:pid", /* isLogged, */ async (req, res) => {
+router.get("/products/:pid", isLogged, async (req, res) => {
     if(!req?.user?.email) return res.redirect("/login")
     try {
         const { pid } = req.params
@@ -62,7 +62,7 @@ router.get("/newProduct", isPremium, async (req, res) => {
     });
 })
 
-router.get("/carts/:cid", /* isLogged, */ async (req, res) => {
+router.get("/carts/:cid", isLogged, async (req, res) => {
     if(!req?.user?.email) return res.redirect("/login")
     try {
         const { cid } = req.params
@@ -77,7 +77,7 @@ router.get("/carts/:cid", /* isLogged, */ async (req, res) => {
     }
 })
 
-router.get("/login", async (req, res) => {
+router.get("/", async (req, res) => {
     if(req?.user?.email) return res.redirect("/products")
     try {
 
@@ -100,13 +100,13 @@ router.get("/register", async (req, res) => {
 
 
 /** esto funciona */
-router.get("/profile", isAdmin, async (req, res) => { 
+router.get("/profile", isLogged, async (req, res) => { 
     if(!req?.user?.email)
     {
         return res.redirect("/login")
     }
     res.render("profile", {
-        title: "Vista Profile Admin",
+        title: "Vista Profile",
         first_name: req.user.first_name,
         last_name: req.user.last_name,
         email: req.user.email,
@@ -158,3 +158,7 @@ router.get("/mockingproducts", async(req,res)=>{
 router.get('/resetPassword', viewsController.resetPassword)
 
 router.get('/createNewPassword/:userId/:token', viewsController.createNewPassword)
+
+router.get('/uploadDocs', isLogged, viewsController.uploadDocs)
+
+router.get('/purchaseEnded/:ticketId', viewsController.getTicketById)

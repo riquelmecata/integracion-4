@@ -2,10 +2,13 @@ import express from "express";
 import __dirname from "./utils.js";
 import handlebars from "express-handlebars";
 import session  from "express-session";
-import  FileStore  from "session-file-store";
+import MongoStore from "connect-mongo";
+import cookieParser from "cookie-parser";
 import passport from "passport";
 import "./passport/passport.config.js";
 import swaggerUi from 'swagger-ui-express'
+import env from "./config/config.js";
+const { userDb, passwordDb } = env;
 
 import { router as ProductRouter } from "./routes/api/product.routes.js"
 import { router as CartRouter} from "./routes/api/carts.routes.js"
@@ -23,6 +26,29 @@ import MessageManager from "./DAL/dao/messagesManager.js";
 const app = express()
 
 app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.use(cookieParser())
+app.use(session({
+    store: new MongoStore({
+        mongoUrl: `mongodb+srv://${userDb}:${passwordDb}@cluster0.cjinh2b.mongodb.net/ecommerce?retryWrites=true&w=majority`,
+        ttl: 600
+    }),
+    secret: 'coder',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 600000
+    }
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+
+//Root public dir
+app.use(express.static(__dirname + '/public'))
+
+/* const app = express()
+
+app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + "/public"))
 
@@ -33,8 +59,7 @@ app.use(session({
     }),
     secret:"default",
     
-}))
-
+})) */
 
 app.use(passport.initialize())
 app.use(passport.session())
@@ -52,17 +77,13 @@ app.engine("handlebars", handlebars.engine())
 app.set("views", __dirname + "/views")
 app.set("view engine", "handlebars")
 
-app.get('/', (req, res) => {
-    res.redirect('/login')
-})
-
 const PORT = 8080
 
 const httpServer = app.listen(PORT, () => {
     console.log("Andando en puerto " + PORT)
 })
 
-const msgInstance = new MessageManager()
+/* const msgInstance = new MessageManager()
 const socketServer = new Server(httpServer)
 let p = 0
 
@@ -124,7 +145,7 @@ socketServer.on('connection', async (socket) => {
     })
 
 })
-
+ */
 
 
 httpServer
